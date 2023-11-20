@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Configuration {
+  id          String  @id @unique @default(uuid())
+  name        String
+  description String?
+
+  version ConfigurationVersion?
+
+  base   Boolean @default(false)
+  active DateTime?
+
+  metrics Metric[]
+  values  Value[]
+  rules Rule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deleted Boolean @default(false)
+  deletedAt DateTime?
+}
+
+model ConfigurationVersion {
+  id    Int   @id @unique @default(autoincrement())
+
+  configuration Configuration @relation(fields: [configurationId], references: [id])
+  configurationId String @unique
+
+  createdAt DateTime @default(now())
+}
+
+model Metric {
+  id String @id @unique @default(uuid())
+
+  key   String
+  index Int
+  name  String
+
+  group   Group?  @relation(fields: [groupKey], references: [key])
+  groupKey String?
+
+  values       Value[] @relation("values")
+  defaultValue Value?  @relation("defaultValue")
+
+  configuration   Configuration? @relation(fields: [configurationId], references: [id])
+  configurationId String?
+
+  rules Rule[] @relation("metricRule")
+  activationRules Rule[] @relation("activationMetric")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Value {
+  id String @id @unique @default(uuid())
+
+  key    String
+  name   String
+  weight Float
+
+  metric   Metric? @relation("values", fields: [metricId], references: [id])
+  metricId String?
+
+  defaultToMetric   Metric? @relation("defaultValue", fields: [defaultToMetricId], references: [id])
+  defaultToMetricId String? @unique
+
+  rules    Rule[]
+  history  ValueHistory[]
+
+  configuration   Configuration? @relation(fields: [configurationId], references: [id])
+  configurationId String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deleted Boolean @default(false)
+  deletedAt DateTime?
+}
+
+model ValueHistory {
+  id String @id @unique @default(uuid())
+
+  value   Value?  @relation(fields: [valueId], references: [id])
+  valueId String?
+
+  weight Float
+
+  createdAt DateTime
+}
+
+model Group {
+  id  String @id @unique @default(uuid())
+  key String @unique
+  index Int
+
+  name        String
+  description String?
+
+  metrics Metric[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rule {
+  id String @id @unique @default(uuid())
+
+  configuration Configuration? @relation(fields: [configurationId], references: [id])
+  configurationId String?
+
+  metric    Metric?  @relation("metricRule", fields: [metricId], references: [id])
+  metricId  String?
+
+  activationMetric    Metric?  @relation("activationMetric", fields: [activationMetricId], references: [id])
+  activationMetricId  String?
+
+  activationValue     Value?   @relation(fields: [activationValueId], references: [id])
+  activationValueId   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

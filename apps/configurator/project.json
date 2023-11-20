@@ -1,0 +1,63 @@
+{
+  "name": "configurator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/configurator",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/configurator",
+        "outputPath": "dist/apps/configurator",
+        "assets": [
+          {
+            "input": "./libs/assets/src/lib",
+            "glob": "**/*",
+            "output": "assets"
+          }
+        ]
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/configurator"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "configurator:build",
+        "dev": true,
+        "port": 4000
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "configurator:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "configurator:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "configurator:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/configurator/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

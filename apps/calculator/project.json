@@ -1,0 +1,63 @@
+{
+  "name": "calculator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/calculator",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/calculator",
+        "outputPath": "dist/apps/calculator",
+        "assets": [
+          {
+            "input": "./libs/assets/src/lib",
+            "glob": "**/*",
+            "output": "assets"
+          }
+        ]
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/calculator"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "calculator:build",
+        "dev": true,
+        "port": 3000
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "calculator:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "calculator:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "calculator:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/calculator/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -81,3 +81,5 @@ The **private configurator** application exposes 4 API endpoints:
 | `GET` | `/api/configuration/active` | Active configuration |
 | `GET` | `/api/configuration/:id` | Configuration details for a given configuration id |
 | `GET` | `/api/configuration/:id/rules` | Ruleset details for a given configuration id |
+
+# VISS user guide located [here](VISS_User_Guide.pdf)

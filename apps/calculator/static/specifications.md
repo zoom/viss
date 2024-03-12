@@ -5,9 +5,7 @@
 
 The Vulnerability Impact Scoring System (VISS) is an open, customizable framework for evaluating the impact of security vulnerabilities upon computer systems infrastructure, technology stacks, and protected data. VISS analyzes thirteen different aspects of impact for each vulnerability, segmented into impact groups specific to the Platform, Infrastructure, and Data. The VISS calculation produces a score ranging from 0 to 100, which can then be modified by applying the Compensating Controls metric. A VISS score is represented as a vector string, a compressed textual representation of the metrics and corresponding values used to derive the score. This document provides the official specification for VISS version 1.0.
 
-VISS is owned and managed by Zoom Video Communications, Inc. a US-based corporation. Zoom reserves the right to update the VISS specification and this document periodically at its sole discretion.
-
-While Zoom owns all rights and interests in VISS, it licenses it to the public free for use, subject to the conditions below. Zoom requires that any individual or entity using VISS give proper attribution, where applicable, that VISS is owned by Zoom and is used with permission. Further, Zoom requires as a condition of use that any individual or entity that publishes VISS scores conforms to the guidelines described in this document and provides both the score and the scoring vector so others can understand how the score was derived.
+Zoom licenses VISS to the public under GPL-3.0.
 
 - [1. Introduction](#1-introduction)
 - [2. Metrics](#2-metrics)

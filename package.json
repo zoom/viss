@@ -1,7 +1,7 @@
 {
   "name": "viss",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "scripts": {
     "dev:db:init": "dotenv -e .env.local -- npx prisma generate && dotenv -e .env.local -- npx prisma db push",
     "dev:db:push": "dotenv -e .env.local -- npx prisma db push",
